@@ -18,8 +18,8 @@ import java.util.List;
 public class ProdutoDAO {
     private PreparedStatement pst;
     private ResultSet rs;
-    private String consultarProduto = "select * from produto";
-    private String consultarProdutoNome = "select * from produto where produto.nome like ?";
+    private String consultarProduto = "select p.*, f * from produto p join fornecedor d on p. fornecedor_id = f.id";
+    private String consultarProdutoNome = "select p.*, f.* from produto p join fornecedor d on p.id_fonecedor = f.id";
     private String incluirProduto = "insert into produto (nome, endereco, bairro, cidade, uf, cep, telefone, email)values (?,?,?,?,?,?,?,?)";
     private String alterarProduto = "update produto set nome = ?, endereco = ?, bairro = ?, cidade = ?, uf = ?, cep = ?, telefone = ?, email = ? where produto.id = ?";
     
@@ -56,7 +56,7 @@ public class ProdutoDAO {
         try {
             Conexao.conectar();
             pst = Conexao.conectar().prepareStatement(consultarProdutoNome);
-            //nome = "%"+nome +"%";
+            nome = "%"+nome +"%";
             pst.setString(1, nome);
             rs = pst.executeQuery();
             
@@ -64,6 +64,7 @@ public class ProdutoDAO {
                 produto = new Produto();
                 produto.setId(rs.getInt("id"));
                 produto.setNome(rs.getString("nome"));
+                //produto.setQtdeEstoque(rs.getInt("p.qtde_estoque"));
                
                 
                 listaProdutos.add(produto);
