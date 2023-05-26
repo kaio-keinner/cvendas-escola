@@ -56,16 +56,16 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private void habilitarCampos(){
         jTxtNome.setEnabled(true);
         TxtNomeFornecedor.setEnabled(true);
-        jTxtBairro.setEnabled(true);
-        jTxtCidade.setEnabled(true);
+        ftfEstoque.setEnabled(true);
+        ftfValor.setEnabled(true);
     
     }
     
     private void desabilitarCampos(){
         jTxtNome.setEnabled(false);
         TxtNomeFornecedor.setEnabled(false);
-        jTxtBairro.setEnabled(false);
-        jTxtCidade.setEnabled(false);
+        ftfEstoque.setEnabled(false);
+        ftfValor.setEnabled(false);
        
     }
     
@@ -92,7 +92,8 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             Produto produto = new Produto();
             produto.setNome(jTxtNome.getText().trim());
             produto.setFornecedor(getFornecedor());
-            
+            produto.setQtdestoque((Integer) ftfEstoque.getValue());
+            produto.setValor((Integer) ftfValor.getValue());
             
            
             
@@ -113,11 +114,13 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Imforme o nome do Produto","Erro",JOptionPane.ERROR_MESSAGE);
             jTxtNome.requestFocus();
         }else{
-        Produto produto = new Produto();
-        produto.setId(lista.get(jTblProdutos.getSelectedRow()).getId());
-                
-         produto.setNome(jTxtNome.getText().trim());
-           
+            Produto produto = new Produto();
+            
+            produto.setId(lista.get(jTblProdutos.getSelectedRow()).getId());
+            produto.setNome(jTxtNome.getText().trim());
+            produto.setFornecedor(getFornecedor());
+            produto.setQtdestoque((Integer) ftfEstoque.getValue());
+            produto.setValor((Integer) ftfValor.getValue());           
             
             ProdutoDAO produtoDao = new ProdutoDAO();
             if(produtoDao.alterarProduto(produto)){
@@ -161,10 +164,10 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         TxtNomeFornecedor = new javax.swing.JTextField();
         Bairro = new javax.swing.JLabel();
-        jTxtBairro = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTxtCidade = new javax.swing.JTextField();
         jToggleButton1 = new javax.swing.JToggleButton();
+        ftfEstoque = new javax.swing.JFormattedTextField();
+        ftfValor = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jBtnNovo = new javax.swing.JButton();
@@ -316,8 +319,9 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(TxtNomeFornecedor, gridBagConstraints);
 
@@ -329,15 +333,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(Bairro, gridBagConstraints);
 
-        jTxtBairro.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTxtBairro, gridBagConstraints);
-
         jLabel6.setText("Valor");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -346,15 +341,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jLabel6, gridBagConstraints);
 
-        jTxtCidade.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTxtCidade, gridBagConstraints);
-
         jToggleButton1.setText("..");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -362,11 +348,29 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jToggleButton1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(ftfEstoque, gridBagConstraints);
+
+        ftfValor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftfValorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(ftfValor, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -515,11 +519,17 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ftfValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfValorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftfValorActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Bairro;
     private javax.swing.JTextField TxtNomeFornecedor;
+    private javax.swing.JFormattedTextField ftfEstoque;
+    private javax.swing.JFormattedTextField ftfValor;
     private javax.swing.JButton jBtnAlterar;
     private javax.swing.JButton jBtnCancelar;
     private javax.swing.JButton jBtnExcluir;
@@ -539,8 +549,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTblProdutos;
     private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JTextField jTxtBairro;
-    private javax.swing.JTextField jTxtCidade;
     private javax.swing.JTextField jTxtFiltroNome;
     private javax.swing.JTextField jTxtNome;
     // End of variables declaration//GEN-END:variables

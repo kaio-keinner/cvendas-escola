@@ -16,8 +16,8 @@ public class Produto  {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String nome;
-    private Double valor;
-    private Double qtdestoque;
+    private Integer valor;
+    private Integer qtdestoque;
     private Fornecedor fornecedor;
 
     public Produto() {
@@ -27,13 +27,7 @@ public class Produto  {
         return id;
     }
 
-    public Double getQtdestoque() {
-        return qtdestoque;
-    }
-
-    public void setQtdestoque(Double qtdestoque) {
-        this.qtdestoque = qtdestoque;
-    }
+   
 
     public void setId(Integer id) {
         this.id = id;
@@ -47,20 +41,29 @@ public class Produto  {
         this.nome = nome;
     }
 
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
+   
     public Fornecedor getFornecedor() {
         return fornecedor;
     }
 
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
+    }
+
+    public Integer getValor() {
+        return valor;
+    }
+
+    public void setValor(Integer valor) {
+        this.valor = valor;
+    }
+
+    public Integer getQtdestoque() {
+        return qtdestoque;
+    }
+
+    public void setQtdestoque(Integer qtdestoque) {
+        this.qtdestoque = qtdestoque;
     }
 
     

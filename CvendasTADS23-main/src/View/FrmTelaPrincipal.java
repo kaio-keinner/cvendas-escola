@@ -157,7 +157,9 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnItmSairActionPerformed
 
     private void jMnItmProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnItmProdutoActionPerformed
-        // TODO add your handling code here:
+        FrmProdutos tela = new FrmProdutos();
+        tela.setVisible(true);
+        jDsktopPane.add(tela);
     }//GEN-LAST:event_jMnItmProdutoActionPerformed
 
     private void jMnItmSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnItmSobreActionPerformed

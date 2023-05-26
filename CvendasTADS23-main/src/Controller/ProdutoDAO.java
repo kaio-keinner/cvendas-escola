@@ -18,10 +18,11 @@ import java.util.List;
 public class ProdutoDAO {
     private PreparedStatement pst;
     private ResultSet rs;
-    private String consultarProduto = "select p.*, f * from produto p join fornecedor d on p. fornecedor_id = f.id";
-    private String consultarProdutoNome = "select p.*, f.* from produto p join fornecedor d on p.fonecedor_id = f.id where p.nome like ?";
-    private String incluirProduto = "insert into produto (nome, fornecedor_id, qtdestoque,valor )values (?,?,?,?)";
-    private String alterarProduto = "update produto set nome = ?,fornecedor_id = ?, qtdestoque = ?, valor = ? where produto.id = ?";
+    private String consultarProduto = "select p.*, f.* from produto p join fornecedor f on p.fornecedor_id = f.id;";
+    private String consultarProdutoNome = "select p., f. from produto p join fornecedor f on p.fornecedor_id = f.id where p.nome like ?";
+    private String incluirProduto = "insert into produto (nome, fornecedor_id, qtde_estoque, valor) values(?, ?, ?, ?)";
+    private String alterarProduto = "update produto set nome = ?, fornecedor_id = ?, qtde_estoque = ?, valor = ? where produto.id = ?";
+    private String excluiProduto = "delete from produto where produto.id = ?";
     
     private String excluirProduto = "delete from produto where produto.id = ?";
     
