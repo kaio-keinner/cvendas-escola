@@ -19,9 +19,9 @@ public class ProdutoDAO {
     private PreparedStatement pst;
     private ResultSet rs;
     private String consultarProduto = "select p.*, f * from produto p join fornecedor d on p. fornecedor_id = f.id";
-    private String consultarProdutoNome = "select p.*, f.* from produto p join fornecedor d on p.id_fonecedor = f.id";
-    private String incluirProduto = "insert into produto (nome, endereco, bairro, cidade, uf, cep, telefone, email)values (?,?,?,?,?,?,?,?)";
-    private String alterarProduto = "update produto set nome = ?, endereco = ?, bairro = ?, cidade = ?, uf = ?, cep = ?, telefone = ?, email = ? where produto.id = ?";
+    private String consultarProdutoNome = "select p.*, f.* from produto p join fornecedor d on p.fonecedor_id = f.id where p.nome like ?";
+    private String incluirProduto = "insert into produto (nome, fornecedor_id, qtdestoque,valor )values (?,?,?,?)";
+    private String alterarProduto = "update produto set nome = ?,fornecedor_id = ?, qtdestoque = ?, valor = ? where produto.id = ?";
     
     private String excluirProduto = "delete from produto where produto.id = ?";
     
@@ -82,6 +82,9 @@ public class ProdutoDAO {
             Conexao.conectar();
             pst = Conexao.conectar().prepareStatement(incluirProduto);
             pst.setString(1, produto.getNome());
+            pst.setInt(2, produto.getId());
+            pst.setDouble(3, produto.getValor());
+            pst.setDouble(4, produto.getQtdestoque());
             
             
             pst.executeUpdate();
@@ -98,10 +101,11 @@ public class ProdutoDAO {
         try {
             Conexao.conectar();
             pst = Conexao.conectar().prepareStatement(alterarProduto);
+            
             pst.setString(1, produto.getNome());
-            
-            
-            pst.setInt(9, produto.getId());
+            pst.setInt(2, produto.getId());
+            pst.setDouble(3, produto.getValor());
+            pst.setDouble(4, produto.getQtdestoque());
             
             pst.executeUpdate();
             
@@ -118,9 +122,13 @@ public class ProdutoDAO {
             Conexao.conectar();
             pst = Conexao.conectar().prepareStatement(excluirProduto);
             
-            pst.setInt(1,produto.getId());
+            pst.setString(1, produto.getNome());
+            pst.setInt(2, produto.getId());
+            pst.setDouble(3, produto.getValor());
+            pst.setDouble(4, produto.getQtdestoque());
             
             pst.executeUpdate();
+            
             return true;
         } catch (Exception e) {
             e.printStackTrace();

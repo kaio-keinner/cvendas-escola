@@ -4,6 +4,7 @@
  */
 package View;
 
+import Model.Fornecedor;
 import Controller.ProdutoDAO;
 import Model.Produto;
 import java.util.List;
@@ -16,11 +17,25 @@ import util.Constantes;
  * @author clebe
  */
 public class FrmProdutos extends javax.swing.JInternalFrame {
-
+    
+    private Fornecedor fornecedor;
     private int modo;
     List<Produto> lista;
+    
     public FrmProdutos() {
         initComponents();
+    }
+    
+     public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    /**
+     * @param fornecedor the fornecedor to set
+     */
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+        TxtNomeFornecedor.setText(fornecedor.getNome());
     }
 
     public void listar() {
@@ -40,7 +55,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     
     private void habilitarCampos(){
         jTxtNome.setEnabled(true);
-        jTxtEndereco.setEnabled(true);
+        TxtNomeFornecedor.setEnabled(true);
         jTxtBairro.setEnabled(true);
         jTxtCidade.setEnabled(true);
     
@@ -48,7 +63,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     
     private void desabilitarCampos(){
         jTxtNome.setEnabled(false);
-        jTxtEndereco.setEnabled(false);
+        TxtNomeFornecedor.setEnabled(false);
         jTxtBairro.setEnabled(false);
         jTxtCidade.setEnabled(false);
        
@@ -76,6 +91,9 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         }else{
             Produto produto = new Produto();
             produto.setNome(jTxtNome.getText().trim());
+            produto.setFornecedor(getFornecedor());
+            
+            
            
             
             ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -141,7 +159,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jTxtNome = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTxtEndereco = new javax.swing.JTextField();
+        TxtNomeFornecedor = new javax.swing.JTextField();
         Bairro = new javax.swing.JLabel();
         jTxtBairro = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -294,14 +312,14 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jLabel4, gridBagConstraints);
 
-        jTxtEndereco.setEnabled(false);
+        TxtNomeFornecedor.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTxtEndereco, gridBagConstraints);
+        jPanel3.add(TxtNomeFornecedor, gridBagConstraints);
 
         Bairro.setText("Estoque");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -315,7 +333,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -323,7 +340,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Valor");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -331,7 +348,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         jTxtCidade.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -502,6 +519,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Bairro;
+    private javax.swing.JTextField TxtNomeFornecedor;
     private javax.swing.JButton jBtnAlterar;
     private javax.swing.JButton jBtnCancelar;
     private javax.swing.JButton jBtnExcluir;
@@ -523,7 +541,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField jTxtBairro;
     private javax.swing.JTextField jTxtCidade;
-    private javax.swing.JTextField jTxtEndereco;
     private javax.swing.JTextField jTxtFiltroNome;
     private javax.swing.JTextField jTxtNome;
     // End of variables declaration//GEN-END:variables

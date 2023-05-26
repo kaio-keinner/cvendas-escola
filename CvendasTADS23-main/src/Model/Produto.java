@@ -17,6 +17,7 @@ public class Produto  {
     private Integer id;
     private String nome;
     private Double valor;
+    private Double qtdestoque;
     private Fornecedor fornecedor;
 
     public Produto() {
@@ -24,6 +25,14 @@ public class Produto  {
 
     public Integer getId() {
         return id;
+    }
+
+    public Double getQtdestoque() {
+        return qtdestoque;
+    }
+
+    public void setQtdestoque(Double qtdestoque) {
+        this.qtdestoque = qtdestoque;
     }
 
     public void setId(Integer id) {
