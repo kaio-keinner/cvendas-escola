@@ -17,12 +17,19 @@ import util.Constantes;
  */
 public class FrmCliente extends javax.swing.JInternalFrame {
 
+    //private registraVenda registraVenda;
     private int modo;
     List<Cliente> lista;
     public FrmCliente() {
         initComponents();
+        jBtnSelecionaCliente.setEnabled(false);
     }
-
+        public FrmCliente(FrmRegistraVenda registraVenda) {
+        this.registraVenda = registraVenda;
+        jBtnSelecionaCliente.setEnabled(true);
+    }
+    
+    
     public void listar() {
         ClienteDAO clienteDao = new ClienteDAO();
         lista = clienteDao.consultarCliente();
@@ -179,6 +186,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jTxtEmail = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
+        jBtnSelecionaCliente = new javax.swing.JButton();
         jBtnNovo = new javax.swing.JButton();
         jBtnAlterar = new javax.swing.JButton();
         jBtnExcluir = new javax.swing.JButton();
@@ -453,6 +461,9 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        jBtnSelecionaCliente.setText("Seleciona Cliente");
+        jPanel4.add(jBtnSelecionaCliente);
+
         jBtnNovo.setText("Novo");
         jBtnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -592,6 +603,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnNovo;
     private javax.swing.JButton jBtnPesquisar;
     private javax.swing.JButton jBtnSalvar;
+    private javax.swing.JButton jBtnSelecionaCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

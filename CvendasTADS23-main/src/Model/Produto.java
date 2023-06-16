@@ -14,22 +14,22 @@ package Model;
 public class Produto  {
 
     private static final long serialVersionUID = 1L;
-    private Integer id;
+    private Double id;
     private String nome;
     private Integer valor;
-    private Integer qtdestoque;
+    private Double qtdestoque;
     private Fornecedor fornecedor;
 
     public Produto() {
     }
 
-    public Integer getId() {
+    public Double getId() {
         return id;
     }
 
    
 
-    public void setId(Integer id) {
+    public void setId(Double id) {
         this.id = id;
     }
 
@@ -58,11 +58,11 @@ public class Produto  {
         this.valor = valor;
     }
 
-    public Integer getQtdestoque() {
+    public Double getQtdestoque() {
         return qtdestoque;
     }
 
-    public void setQtdestoque(Integer qtdestoque) {
+    public void setQtdestoque(Double qtdestoque) {
         this.qtdestoque = qtdestoque;
     }
 

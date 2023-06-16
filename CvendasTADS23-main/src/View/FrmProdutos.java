@@ -7,26 +7,33 @@ package View;
 import Model.Fornecedor;
 import Controller.ProdutoDAO;
 import Model.Produto;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import util.Constantes;
+import java.lang.Double;
+import java.lang.Integer;
 
 /**
  *
  * @author clebe
  */
 public class FrmProdutos extends javax.swing.JInternalFrame {
-    
+
     private Fornecedor fornecedor;
+    private Produto produtos;
     private int modo;
     List<Produto> lista;
-    
+
     public FrmProdutos() {
+        jBtnSelecionarProduto.setVisible(false);
         initComponents();
     }
-    
-     public Fornecedor getFornecedor() {
+
+    public Fornecedor getFornecedor() {
         return fornecedor;
     }
 
@@ -47,94 +54,104 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         for (Produto produto : lista) {
             dados.addRow(new Object[]{
                 produto.getId(),
-                produto.getNome(),
-            });
+                produto.getNome(),});
         }
+        try {
+            DecimalFormat formatoValor = new DecimalFormat("#,###.00");
+            NumberFormatter formatterValor = new NumberFormatter(formatoValor);
+            formatterValor.setValueClass(Double.class);
+            ftfValor.setFormatterFactory(new DefaultFormatterFactory(formatterValor));
 
+            DecimalFormat formatoEstoque = new DecimalFormat("#,###");
+            NumberFormatter formatterEstoque = new NumberFormatter(formatoEstoque);
+            formatterEstoque.setValueClass(Integer.class);
+            ftfEstoque.setFormatterFactory(new DefaultFormatterFactory(formatterEstoque));
+        } catch (Exception ex) {
+            // Logger.getLogger(FrmProdutos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    private void habilitarCampos(){
+
+    private void habilitarCampos() {
         jTxtNome.setEnabled(true);
         TxtNomeFornecedor.setEnabled(true);
         ftfEstoque.setEnabled(true);
         ftfValor.setEnabled(true);
-    
+
     }
-    
-    private void desabilitarCampos(){
+
+    private void desabilitarCampos() {
         jTxtNome.setEnabled(false);
         TxtNomeFornecedor.setEnabled(false);
         ftfEstoque.setEnabled(false);
         ftfValor.setEnabled(false);
-       
+
     }
-    
-    private void desabilitarBotoes(){
+
+    private void desabilitarBotoes() {
         jBtnSalvar.setEnabled(false);
         jBtnCancelar.setEnabled(false);
         jBtnNovo.setEnabled(true);
         jBtnAlterar.setEnabled(true);
         jBtnExcluir.setEnabled(true);
     }
-    private void habilitarBotoes(){
+
+    private void habilitarBotoes() {
         jBtnSalvar.setEnabled(true);
         jBtnCancelar.setEnabled(true);
         jBtnNovo.setEnabled(false);
         jBtnAlterar.setEnabled(false);
         jBtnExcluir.setEnabled(false);
     }
-    
-    public void incluiProduto(){
-        if(jTxtNome.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(this, "Informe o nome do Produto","Erro",JOptionPane.ERROR_MESSAGE);
+
+    public void incluiProduto() {
+        if (jTxtNome.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Informe o nome do Produto", "Erro", JOptionPane.ERROR_MESSAGE);
             jTxtNome.requestFocus();
-        }else{
+        } else {
             Produto produto = new Produto();
             produto.setNome(jTxtNome.getText().trim());
             produto.setFornecedor(getFornecedor());
-            produto.setQtdestoque((Integer) ftfEstoque.getValue());
+            produto.setQtdestoque((Double) ftfEstoque.getValue());
             produto.setValor((Integer) ftfValor.getValue());
-            
-           
-            
+
             ProdutoDAO produtoDAO = new ProdutoDAO();
-            if(produtoDAO.icluirProduto(produto)){
-                JOptionPane.showMessageDialog(this, "Produto Cadastrado com Sucesso!!!","Confirmação", JOptionPane.INFORMATION_MESSAGE);
+            if (produtoDAO.icluirProduto(produto)) {
+                JOptionPane.showMessageDialog(this, "Produto Cadastrado com Sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
                 listar();
                 desabilitarBotoes();
                 desabilitarCampos();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar o Produto!!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
-    public void alteraProduto(){
-        if(jTxtNome.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(this, "Imforme o nome do Produto","Erro",JOptionPane.ERROR_MESSAGE);
+
+    public void alteraProduto() {
+        if (jTxtNome.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Imforme o nome do Produto", "Erro", JOptionPane.ERROR_MESSAGE);
             jTxtNome.requestFocus();
-        }else{
+        } else {
             Produto produto = new Produto();
-            
+
             produto.setId(lista.get(jTblProdutos.getSelectedRow()).getId());
             produto.setNome(jTxtNome.getText().trim());
             produto.setFornecedor(getFornecedor());
-            produto.setQtdestoque((Integer) ftfEstoque.getValue());
-            produto.setValor((Integer) ftfValor.getValue());           
-            
+            produto.setQtdestoque((Double) ftfEstoque.getValue());
+            produto.setValor((Integer) ftfValor.getValue());
+
             ProdutoDAO produtoDao = new ProdutoDAO();
-            if(produtoDao.alterarProduto(produto)){
-                JOptionPane.showMessageDialog(this, "Produto alterado com Sucesso!!!","Confirmação", JOptionPane.INFORMATION_MESSAGE);
+            if (produtoDao.alterarProduto(produto)) {
+                JOptionPane.showMessageDialog(this, "Produto alterado com Sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
                 listar();
                 desabilitarBotoes();
                 desabilitarCampos();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Erro ao alterar o Produto!!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
     }
-    
+
     private void excluiProduto() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         if (produtoDAO.excluirProduto(lista.get(jTblProdutos.getSelectedRow()))) {
@@ -165,11 +182,11 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         TxtNomeFornecedor = new javax.swing.JTextField();
         Bairro = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jBtnSelecionarFornecedor = new javax.swing.JToggleButton();
         ftfEstoque = new javax.swing.JFormattedTextField();
         ftfValor = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jBtnSelecionarProduto = new javax.swing.JButton();
         jBtnNovo = new javax.swing.JButton();
         jBtnAlterar = new javax.swing.JButton();
         jBtnExcluir = new javax.swing.JButton();
@@ -335,27 +352,29 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Valor");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jLabel6, gridBagConstraints);
 
-        jToggleButton1.setText("..");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnSelecionarFornecedor.setText("..");
+        jBtnSelecionarFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                jBtnSelecionarFornecedorActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jToggleButton1, gridBagConstraints);
+        jPanel3.add(jBtnSelecionarFornecedor, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(ftfEstoque, gridBagConstraints);
@@ -366,9 +385,11 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.BASELINE;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(ftfValor, gridBagConstraints);
 
@@ -380,13 +401,13 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton1.setText("Selecionar Produto");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnSelecionarProduto.setText("Selecionar Produto");
+        jBtnSelecionarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtnSelecionarProdutoActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton1);
+        jPanel4.add(jBtnSelecionarProduto);
 
         jBtnNovo.setText("Novo");
         jBtnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -440,20 +461,33 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
-        
+
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
-        String nome = "%"+jTxtFiltroNome.getText()+"%";
+
         ProdutoDAO produtoDao = new ProdutoDAO();
-        List<Produto> lista = produtoDao.consultaProdutoNome(nome);
+        lista = produtoDao.consultaProdutoNome(jTxtFiltroNome.getText());
         DefaultTableModel dados = (DefaultTableModel) jTblProdutos.getModel();
-        dados.setRowCount(0);
+        dados.setNumRows(0);
+
         for (Produto produto : lista) {
             dados.addRow(new Object[]{
                 produto.getId(),
-                produto.getNome(),
-            });
+                produto.getNome(),});
+        }
+        try {
+            DecimalFormat formatoValor = new DecimalFormat("#,###.00");
+            NumberFormatter formatterValor = new NumberFormatter(formatoValor);
+            formatterValor.setValueClass(Double.class);
+            ftfValor.setFormatterFactory(new DefaultFormatterFactory(formatterValor));
+
+            DecimalFormat formatoEstoque = new DecimalFormat("#,###");
+            NumberFormatter formatterEstoque = new NumberFormatter(formatoEstoque);
+            formatterEstoque.setValueClass(Integer.class);
+            ftfEstoque.setFormatterFactory(new DefaultFormatterFactory(formatterEstoque));
+        } catch (Exception ex) {
+            // Logger.getLogger(FrmProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
@@ -464,9 +498,9 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnNovoActionPerformed
 
     private void jBtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSalvarActionPerformed
-        if(modo == Constantes.INSERT_MODE){
+        if (modo == Constantes.INSERT_MODE) {
             incluiProduto();
-        }else if(modo == Constantes.EDIT_MODE){
+        } else if (modo == Constantes.EDIT_MODE) {
             alteraProduto();
         }
     }//GEN-LAST:event_jBtnSalvarActionPerformed
@@ -476,29 +510,29 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void jTblProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblProdutosMouseClicked
-        if(jTblProdutos.getSelectedRow()!=-1){
-           int indice = jTblProdutos.getSelectedRow();
-           jTxtNome.setText(lista.get(indice).getNome());
-           
+        if (jTblProdutos.getSelectedRow() != -1) {
+            int indice = jTblProdutos.getSelectedRow();
+            jTxtNome.setText(lista.get(indice).getNome());
+
         }
     }//GEN-LAST:event_jTblProdutosMouseClicked
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
-        if(jTblProdutos.getSelectedRow()!=-1){
+        if (jTblProdutos.getSelectedRow() != -1) {
             habilitarBotoes();
             habilitarCampos();
             modo = Constantes.EDIT_MODE;
-        }else{
-            JOptionPane.showMessageDialog(this, "Selecione um produto da lista","Erro",JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um produto da lista", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
-        if(jTblProdutos.getSelectedRow()!=-1){
-            int resposta = JOptionPane.showConfirmDialog(this, "Confirmar exclusão de produto?","Confirmação",JOptionPane.YES_NO_OPTION);
-            if(resposta == JOptionPane.YES_OPTION){
+        if (jTblProdutos.getSelectedRow() != -1) {
+            int resposta = JOptionPane.showConfirmDialog(this, "Confirmar exclusão de produto?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
                 excluiProduto();
-        }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Selecione um produto da lista");
             }
     }//GEN-LAST:event_jBtnExcluirActionPerformed
@@ -512,18 +546,25 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtFiltroNomeActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void jBtnSelecionarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSelecionarFornecedorActionPerformed
+      
+    }//GEN-LAST:event_jBtnSelecionarFornecedorActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jBtnSelecionarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSelecionarProdutoActionPerformed
+if (jTblProdutos.getSelectedRow() != -1) {
+            int numeroLinha = jTblProdutos.getSelectedRow();
+            registraVenda.setProduto(produtos.get(jTblProdutos.getSelectedRow()));
+            this.dispose();
+            registraVenda.toFront();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um produto da lista!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }        
+    }//GEN-LAST:event_jBtnSelecionarProdutoActionPerformed
 
     private void ftfValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfValorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ftfValorActionPerformed
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Bairro;
@@ -536,7 +577,8 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnNovo;
     private javax.swing.JButton jBtnPesquisar;
     private javax.swing.JButton jBtnSalvar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JToggleButton jBtnSelecionarFornecedor;
+    private javax.swing.JButton jBtnSelecionarProduto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -548,7 +590,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTblProdutos;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField jTxtFiltroNome;
     private javax.swing.JTextField jTxtNome;
     // End of variables declaration//GEN-END:variables

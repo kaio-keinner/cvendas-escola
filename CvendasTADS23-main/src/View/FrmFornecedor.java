@@ -11,17 +11,29 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.Constantes;
 
+
 /**
  *
  * @author clebe
  */
 public class FrmFornecedor extends javax.swing.JInternalFrame {
 
+    private FrmProdutos frmprodutos;
     private int modo;
     List<Fornecedor> lista;
+    
     public FrmFornecedor() {
         initComponents();
+        jBtnSelecionarFornecedor.setVisible(false);
+        
     }
+    
+     public FrmFornecedor(FrmProdutos frmProduto) {
+       initComponents();
+       jBtnSelecionarFornecedor.setVisible(true);
+       this.frmprodutos = frmProduto;
+     }    
+    
 
     public void listar() {
         FornecedorDAO fornecedorDao = new FornecedorDAO();
@@ -179,6 +191,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jTxtEmail = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
+        jBtnSelecionarFornecedor = new javax.swing.JButton();
         jBtnNovo = new javax.swing.JButton();
         jBtnAlterar = new javax.swing.JButton();
         jBtnExcluir = new javax.swing.JButton();
@@ -453,6 +466,14 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        jBtnSelecionarFornecedor.setText("Selecionar Fornecedor");
+        jBtnSelecionarFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSelecionarFornecedorActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jBtnSelecionarFornecedor);
+
         jBtnNovo.setText("Novo");
         jBtnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -582,6 +603,16 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     private void jTxtFiltroNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtFiltroNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtFiltroNomeActionPerformed
+
+    private void jBtnSelecionarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSelecionarFornecedorActionPerformed
+       if(jTblFornecedors.getSelectedRow()!=-1){
+           frmprodutos.setFornecedor(lista.get(jTblFornecedors.getSelectedRow()));
+            this.dispose();
+            frmprodutos.toFront();
+    }else{
+           JOptionPane.showMessageDialog(this, "Selecione um fornecedor da lista","Erro",JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_jBtnSelecionarFornecedorActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -592,6 +623,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnNovo;
     private javax.swing.JButton jBtnPesquisar;
     private javax.swing.JButton jBtnSalvar;
+    private javax.swing.JButton jBtnSelecionarFornecedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

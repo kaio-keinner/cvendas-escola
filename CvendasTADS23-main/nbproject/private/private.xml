@@ -5,8 +5,11 @@
         <group>
             <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/Model/Fornecedor.java</file>
             <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/View/FrmFornecedor.java</file>
-            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/Controller/ClienteDAO.java</file>
-            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/Controller/FornecedorDAO.java</file>
+            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/Controller/VendaDAO.java</file>
+            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/View/FrmRegistraVenda.java</file>
+            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/View/FrmProdutos.java</file>
+            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/View/FrmCliente.java</file>
+            <file>file:/C:/Users/Usuario/Documents/kaio/cvendas%20casa/CvendasTADS23-main/src/Model/ItensVenda.java</file>
         </group>
     </open-files>
 </project-private>

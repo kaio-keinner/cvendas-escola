@@ -56,7 +56,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         setTitle("Java GUI Swing - TADS 2023 ! ! !");
 
         jDsktopPane.setPreferredSize(new java.awt.Dimension(700, 600));
-        jDsktopPane.setLayout(new java.awt.CardLayout());
 
         jMnSistema.setMnemonic('s');
         jMnSistema.setText("Sistema");
@@ -176,9 +175,9 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnItmClienteActionPerformed
 
     private void jMnItmFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnItmFornecedorActionPerformed
-        FrmFornecedor tela = new FrmFornecedor();
-        tela.setVisible(true);
-         jDsktopPane.add(tela);
+        FrmFornecedor tela1 = new FrmFornecedor();
+        tela1.setVisible(true);
+         jDsktopPane.add(tela1);
     }//GEN-LAST:event_jMnItmFornecedorActionPerformed
 
     /**

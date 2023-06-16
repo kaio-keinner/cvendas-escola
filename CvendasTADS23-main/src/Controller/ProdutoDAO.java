@@ -13,14 +13,14 @@ import java.util.List;
 
 /**
  *
- * @author clebe
+ * @author kaio
  */
 public class ProdutoDAO {
     private PreparedStatement pst;
     private ResultSet rs;
     private String consultarProduto = "select p.*, f.* from produto p join fornecedor f on p.fornecedor_id = f.id;";
-    private String consultarProdutoNome = "select p., f. from produto p join fornecedor f on p.fornecedor_id = f.id where p.nome like ?";
-    private String incluirProduto = "insert into produto (nome, fornecedor_id, qtde_estoque, valor) values(?, ?, ?, ?)";
+    private String consultarProdutoNome = "select p , f from produto p join fornecedor f on p.fornecedor_id = f.id where p.nome like ?";
+    private String incluirProduto = "insert into produto (fornecedor_id, nome,  valor, qtde_ecedor_id,nome,  vestoque) values(?, ?, ?, ?)";
     private String alterarProduto = "update produto set nome = ?, fornecedor_id = ?, qtde_estoque = ?, valor = ? where produto.id = ?";
     private String excluiProduto = "delete from produto where produto.id = ?";
     
@@ -38,7 +38,7 @@ public class ProdutoDAO {
             while(rs.next()){
                 produto = new Produto();
                 //setando atributos
-                produto.setId(rs.getInt("id"));
+                produto.setId(rs.getDouble("id"));
                 produto.setNome(rs.getString("nome"));
                
                 //adicionando na lista
@@ -63,7 +63,7 @@ public class ProdutoDAO {
             
             while(rs.next()){
                 produto = new Produto();
-                produto.setId(rs.getInt("id"));
+                produto.setId(rs.getDouble("id"));
                 produto.setNome(rs.getString("nome"));
                 //produto.setQtdeEstoque(rs.getInt("p.qtde_estoque"));
                
@@ -83,7 +83,7 @@ public class ProdutoDAO {
             Conexao.conectar();
             pst = Conexao.conectar().prepareStatement(incluirProduto);
             pst.setString(1, produto.getNome());
-            pst.setInt(2, produto.getId());
+            pst.setDouble(2, produto.getId());
             pst.setDouble(3, produto.getValor());
             pst.setDouble(4, produto.getQtdestoque());
             
@@ -104,7 +104,7 @@ public class ProdutoDAO {
             pst = Conexao.conectar().prepareStatement(alterarProduto);
             
             pst.setString(1, produto.getNome());
-            pst.setInt(2, produto.getId());
+            pst.setDouble(2, produto.getId());
             pst.setDouble(3, produto.getValor());
             pst.setDouble(4, produto.getQtdestoque());
             
@@ -124,7 +124,7 @@ public class ProdutoDAO {
             pst = Conexao.conectar().prepareStatement(excluirProduto);
             
             pst.setString(1, produto.getNome());
-            pst.setInt(2, produto.getId());
+            pst.setDouble(2, produto.getId());
             pst.setDouble(3, produto.getValor());
             pst.setDouble(4, produto.getQtdestoque());
             
